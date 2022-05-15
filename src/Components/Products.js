@@ -4,8 +4,9 @@ import { Zoom } from "react-reveal";
 import Modal from "react-modal/lib/components/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../actions/productsActions";
+import { addToCart } from "../actions/cartActions";
 
-export const Products = ({ products, addToCart }) => {
+export const Products = ({ products }) => {
   // const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -39,7 +40,7 @@ export const Products = ({ products, addToCart }) => {
                 <div className="product-price">
                   <div>{formatCurrency(x.price)}</div>
                   <button
-                    onClick={() => addToCart(x)}
+                    onClick={() => dispatch(addToCart(x))}
                     className="button primary"
                   >
                     Add To Cart

@@ -7,7 +7,8 @@ export const Filter = ({ count, sort }) => {
   const { items, filteredItems } = useSelector((state) => state.products);
   return (
     <div className="filter">
-      <div className="filter-result">{count} Products</div>
+      {/* <div className="filter-result">{count} Products</div> */}
+      <div className="filter-result">{filteredItems.length} Products</div>
       <div className="filter-sort">
         Order
         {/* <select onChange={(e) => sortProducts(e.target.value)}> */}

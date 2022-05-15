@@ -1,16 +1,28 @@
 import { types } from "../types/types";
 import { fetchSinToken } from "../util";
 
-export const fetchProducts = () => async (dispatch) => {
-  const res = await fetchSinToken("products");
+export const fetchProducts = () => {
+  return async (dispatch) => {
+    const res = await fetchSinToken("products");
 
-  const data = await res.json();
+    const data = await res.json();
 
-  dispatch({
-    type: types.FETCH_PRODUCTS,
-    payload: data.products,
-  });
+    dispatch({
+      type: types.FETCH_PRODUCTS,
+      payload: data.products,
+    });
+  };
 };
+// export const fetchProducts = () => async (dispatch) => {
+//   const res = await fetchSinToken("products");
+
+//   const data = await res.json();
+
+//   dispatch({
+//     type: types.FETCH_PRODUCTS,
+//     payload: data.products,
+//   });
+// };
 
 export const filterProducts = (products, size) => (dispatch) => {
   dispatch({
@@ -26,7 +38,6 @@ export const filterProducts = (products, size) => (dispatch) => {
 };
 
 export const sortProducts = (filteredProducts, sort) => (dispatch) => {
-  console.log(filteredProducts);
   const sortedProducts = filteredProducts.slice();
   if (sort === "latest") {
     sortedProducts.sort((a, b) => (a._id > b._id ? 1 : -1));

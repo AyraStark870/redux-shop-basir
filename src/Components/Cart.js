@@ -1,9 +1,19 @@
 import React, { useState } from "react";
 import formatCurrency from "../util";
 import { Fade } from "react-reveal";
+import { Zoom } from "react-reveal";
+import Modal from "react-modal/lib/components/Modal";
+import { useDispatch, useSelector } from "react-redux";
+import { removeFromCart, addToCart } from "../actions/cartActions";
+import { createOrder, clearOrder } from "../actions/orderAction";
 
-export const Cart = (props) => {
-  const { cartItems, removeFromCart } = props;
+export const Cart = () => {
+  // const [order, setOrder] = useState();
+  const dispatch = useDispatch();
+  const { cartItems } = useSelector((state) => state.cart);
+  const { order } = useSelector((state) => state.order);
+  console.log(order);
+
   const [showCheckOut, setShowCheckOut] = useState(false);
   const [formValue, setFormValue] = useState({
     name: "",
@@ -17,7 +27,7 @@ export const Cart = (props) => {
       [target.name]: target.value,
     });
   };
-  const createOrder = (e) => {
+  const createMyOrder = (e) => {
     e.preventDefault();
     const { email, address, name } = formValue;
     const order = {
@@ -25,10 +35,17 @@ export const Cart = (props) => {
       email,
       address,
       cartItems,
+      total: cartItems.reduce((a, c) => a + c.price * c.count, 0),
     };
-    props.createOrder(order);
+
+    dispatch(createOrder(order));
+    // setOrder(order);
   };
 
+  const closeModal = () => {
+    console.log("closing");
+    dispatch(clearOrder());
+  };
   return (
     <>
       <div>
@@ -40,6 +57,45 @@ export const Cart = (props) => {
           </div>
         )}
       </div>
+      {order && (
+        <Modal isOpen={true} onRequestClose={closeModal}>
+          <Zoom>
+            <button className="close-modal" onClick={closeModal}>
+              X
+            </button>
+            <div className="order-detail">
+              <h3 className="success-message">Your order has been placed</h3>
+              <h2>{`Order ${order._id}`}</h2>
+              <ul>
+                <li>
+                  <div>Name:</div>
+                  <div>{order.name}</div>
+                </li>
+                <li>
+                  <div>Email:</div>
+                  <div>{order.email}</div>
+                </li>
+                <li>
+                  <div>Address:</div>
+                  <div>{order.address}</div>
+                </li>
+                <li>
+                  <div>Total:</div>
+                  <div>{formatCurrency(order.total)}</div>
+                </li>
+                <li>
+                  <div>Cart Items:</div>
+                  <div>
+                    {order.cartItems.map((x) => (
+                      <div>{`${x.count} x ${x.price} `}</div>
+                    ))}
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </Zoom>
+        </Modal>
+      )}
       <div>
         <div className="cart">
           <Fade left cascade={true}>
@@ -55,7 +111,7 @@ export const Cart = (props) => {
                       {formatCurrency(x.price)}x{x.count}{" "}
                       <button
                         className="button"
-                        onClick={() => removeFromCart(x)}
+                        onClick={() => dispatch(removeFromCart(x))}
                       >
                         remove
                       </button>
@@ -87,7 +143,7 @@ export const Cart = (props) => {
             {showCheckOut && (
               <Fade right cascade={true}>
                 <div className="cart">
-                  <form onSubmit={createOrder}>
+                  <form onSubmit={createMyOrder}>
                     <ul className="form-container">
                       <li>
                         <label>Email</label>

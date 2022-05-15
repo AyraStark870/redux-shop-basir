@@ -54,36 +54,36 @@ function App() {
     });
   };
 
-  const addToCart = (product) => {
-    //const cartItems = productsData.cartItems.slice();
-    const cartItems = [...productsData.cartItems];
-    let alreadyInCart = false;
-    cartItems.forEach((x) => {
-      if (x._id === product._id) {
-        x.count++;
-        alreadyInCart = true;
-      }
-    });
-    if (!alreadyInCart) {
-      cartItems.push({ ...product, count: 1 });
-    }
-    setProductsData((productsData) => ({ ...productsData, cartItems }));
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
-  };
+  // const addToCart = (product) => {
+  //   //const cartItems = productsData.cartItems.slice();
+  //   const cartItems = [...productsData.cartItems];
+  //   let alreadyInCart = false;
+  //   cartItems.forEach((x) => {
+  //     if (x._id === product._id) {
+  //       x.count++;
+  //       alreadyInCart = true;
+  //     }
+  //   });
+  //   if (!alreadyInCart) {
+  //     cartItems.push({ ...product, count: 1 });
+  //   }
+  //   setProductsData((productsData) => ({ ...productsData, cartItems }));
+  //   localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  // };
 
-  const removeFromCart = (product) => {
-    const newCartItems = [...productsData.cartItems].filter(
-      (x) => x._id !== product._id
-    );
-    setProductsData((productsData) => ({
-      ...productsData,
-      cartItems: newCartItems,
-    }));
-    localStorage.setItem("cartItems", JSON.stringify(newCartItems));
-  };
-  const createOrder = (order) => {
-    alert(`need to implement the order for ${order.name}`);
-  };
+  // const removeFromCart = (product) => {
+  //   const newCartItems = [...productsData.cartItems].filter(
+  //     (x) => x._id !== product._id
+  //   );
+  //   setProductsData((productsData) => ({
+  //     ...productsData,
+  //     cartItems: newCartItems,
+  //   }));
+  //   localStorage.setItem("cartItems", JSON.stringify(newCartItems));
+  // };
+  // const createOrder = (order) => {
+  //   alert(`need to implement the order for ${order.name}`);
+  // };
 
   return (
     <Provider store={store}>
@@ -95,21 +95,21 @@ function App() {
           <div className="content">
             <div className="main">
               <Filter
-                count={productsData.products.length}
-                sort={productsData.sort}
-                filterProducts={filterProducts}
-                sortProducts={sortProducts}
+              // count={productsData.products.length}
+              // sort={productsData.sort}
+              // filterProducts={filterProducts}
+              // sortProducts={sortProducts}
               />
               <Products
-                addToCart={addToCart}
-                products={productsData.products}
+              // addToCart={addToCart}
+              // products={productsData.products}
               />
             </div>
             <div className="sidebar">
               <Cart
-                removeFromCart={removeFromCart}
-                cartItems={productsData.cartItems}
-                createOrder={createOrder}
+              // removeFromCart={removeFromCart}
+              // cartItems={productsData.cartItems}
+              // createOrder={createOrder}
               />
             </div>
           </div>
